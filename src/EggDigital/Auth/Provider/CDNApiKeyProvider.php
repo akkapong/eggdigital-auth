@@ -6,10 +6,9 @@ namespace EggDigital\Auth\Provider;
  * API CDN
  *
  * @category Libraries
- * @package  Keygen
- * @author   Duangjai Tiewpanich <bawaki@gmail.com>
- * @license  CDN version 1.0
- * @link     http://api-cdn.eggdigital.com
+ * @package  Eggdigital/Auth
+ * @author   Akkapong Kajornwongwattana <akk.ohm@gmail.com>
+ * @license  CDN Generate key version 1.0
  */
 class CDNApiKeyProvider
 {
@@ -19,8 +18,7 @@ class CDNApiKeyProvider
 
     public function __construct()
     {
-        $this->config = \Config::get('service::'.$_SERVER['LARAVEL_ENV'].'/config');
-        print_r($this->config);
+        $this->config = \Config::get('auth::'.$_SERVER['LARAVEL_ENV'].'/config');
     }
 
     private function callApi($service)
@@ -50,10 +48,11 @@ class CDNApiKeyProvider
     {
     	$public_key = "";
     	$res = $this->callApi($service_id);
-    	print_r($res);
-    	echo "XXXXXXXXXXXXX";
+    	
+        //convert to array
+        $res = json_decode($res, true);
 
-    	if ($res["status"] == 200) {
+    	if ((isset($res["status"]))&&($res["status"]["code"] == 200)) {
 			$public_key = $res["data"]["key"];
     	}
 
@@ -81,13 +80,13 @@ class CDNApiKeyProvider
     {
     	$apikey = "";
     	//get public key
-    	$public_key = getPublicKey($service_id);
+    	$public_key = $this->getPublicKey($service_id);
 
-    	if (!empty($public_key)) {
+        if (!empty($public_key)) {
     		//get key
     		$server_encode = $this->getKey($service_id);
     		//gen api key
-    		$apikey = $Keygen->encode($server_encode . $public_key, 8);
+    		$apikey = $this->encode($server_encode . $public_key, 8);
 
 
     	}
