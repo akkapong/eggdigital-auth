@@ -1,0 +1,22 @@
+{
+    "name": "eggdigital/auth",
+    "description": "",
+    "type": "library",
+    "license": "GNU General Public License (GPL)",
+    "authors": [
+        {
+            "name": "Akkapong Kajornwongwattana",
+            "email": "akk.ohm@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "psr-0": {
+            "EggDigital\\Auth": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
